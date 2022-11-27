@@ -1,7 +1,5 @@
-package dev.sleep.chatoverwrite;
+package dev.sleep.particlelib;
 
-import dev.sleep.chatoverwrite.common.network.NetworkManager;
-import dev.sleep.chatoverwrite.server.event.EventHandler;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

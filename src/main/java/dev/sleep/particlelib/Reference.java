@@ -1,4 +1,4 @@
-package dev.sleep.chatoverwrite;
+package dev.sleep.particlelib;
 
 public class Reference {
 

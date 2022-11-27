@@ -1,12 +1,17 @@
 buildscript {
+    repositories {
+    	maven { url  = 'https://plugins.gradle.org/m2/' }
+    }
 	dependencies {
 		classpath "io.freefair.gradle:lombok-plugin:6.5.1"
+		classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.0"
 	}
 }
 
 plugins {
 	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
+	id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 apply plugin: "io.freefair.lombok"
@@ -19,7 +24,14 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+    mavenCentral()
+	maven { url  = 'https://plugins.gradle.org/m2/' }
 	maven { url = 'https://maven.parchmentmc.org' }
+	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+}
+
+configurations {
+    shade
 }
 
 dependencies {
@@ -31,12 +43,29 @@ dependencies {
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	
+    implementation(include('com.eliotlash.mclib:mclib:20'))
+    shade 'com.eliotlash.mclib:mclib:20'
+
+	implementation 'com.google.code.gson:gson:2.10'
+	implementation 'it.unimi.dsi:fastutil:8.5.9'
 
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 	testCompileOnly 'org.projectlombok:lombok:1.18.24'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+shadowJar {
+    configurations = [project.configurations.shade]
+    from sourceSets.main.output
+    duplicatesStrategy = 'exclude'
+    exclude('META-INF/services/**')
+    exclude('it/**')
+    exclude('com/google/**')
+    relocate 'com.eliotlash', 'dev.sleep.shadowed.eliotlash'
+    classifier 'dev'
 }
 
 processResources {
