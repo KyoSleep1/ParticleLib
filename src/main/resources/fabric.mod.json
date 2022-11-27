@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "particlelib",
+  "version": "${version}",
+
+  "name": "ParticleLib",
+  "description": "ParticleLib lets you extract and render particles from SnowStorm.",
+  "authors": [
+    "KyoSleep"
+  ],
+  "contact": {
+    "discord": "KyoSleep#6920"
+  },
+
+  "license": "MIT",
+  "icon": "assets/particlelib/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "dev.sleep.particlelib.client.MainClient"
+    ],
+    "main": [
+      "dev.sleep.particlelib.Main"
+    ]
+  },
+  "mixins": [
+    "particlelib.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric-api": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
