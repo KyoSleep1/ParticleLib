@@ -1,7 +1,7 @@
-package dev.sleep.particlelib.impl.common.item;
+package dev.sleep.particlelib.core.impl.common.item;
 
-import dev.sleep.particlelib.impl.common.network.NetworkManager;
-import dev.sleep.particlelib.impl.common.network.packet.PacketEmitterPlaced;
+import dev.sleep.particlelib.core.impl.common.network.NetworkManager;
+import dev.sleep.particlelib.core.impl.common.network.packet.PacketEmitterPlaced;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;

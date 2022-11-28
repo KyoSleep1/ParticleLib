@@ -1,7 +1,7 @@
-package dev.sleep.particlelib.impl.common.registry;
+package dev.sleep.particlelib.core.impl.common.registry;
 
 import dev.sleep.particlelib.Reference;
-import dev.sleep.particlelib.impl.common.item.EmitterWandItem;
+import dev.sleep.particlelib.core.impl.common.item.EmitterWandItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

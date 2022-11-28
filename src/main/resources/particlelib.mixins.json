@@ -1,9 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.sleep.particlelib.impl.mixin",
+  "package": "dev.sleep.particlelib.core.impl.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "server.MixinServerLevel"
   ],
   "client": [
     "client.MixinParticleEngine"

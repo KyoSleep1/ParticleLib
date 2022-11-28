@@ -1,6 +1,6 @@
-package dev.sleep.particlelib.impl.common.network.packet;
+package dev.sleep.particlelib.core.impl.common.network.packet;
 
-import dev.sleep.particlelib.impl.common.network.NetworkManager;
+import dev.sleep.particlelib.core.impl.common.network.NetworkManager;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;

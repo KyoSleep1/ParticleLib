@@ -1,4 +1,4 @@
-package dev.sleep.particlelib.impl.common.network.packet;
+package dev.sleep.particlelib.core.impl.common.network.packet;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

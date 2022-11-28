@@ -1,8 +1,8 @@
-package dev.sleep.particlelib.impl.common.network;
+package dev.sleep.particlelib.core.impl.common.network;
 
 import dev.sleep.particlelib.Reference;
-import dev.sleep.particlelib.impl.common.network.packet.AbstractPacket;
-import dev.sleep.particlelib.impl.common.network.packet.PacketEmitterPlaced;
+import dev.sleep.particlelib.core.impl.common.network.packet.AbstractPacket;
+import dev.sleep.particlelib.core.impl.common.network.packet.PacketEmitterPlaced;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
