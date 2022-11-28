@@ -1,0 +1,5 @@
+{
+  "item.particlelib.emitter_wand": "Emitter wand",
+  "item.particlelib.emitter_wand.desc": "Right click Block/Entity to attach a Particle Emitter",
+  "itemGroup.particlelib.items_group": "ParticleLib's Items"
+}

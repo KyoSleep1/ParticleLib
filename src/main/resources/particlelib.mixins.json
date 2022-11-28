@@ -1,11 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.sleep.particlelib.mixin",
+  "package": "dev.sleep.particlelib.impl.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],
   "client": [
+    "client.MixinParticleEngine"
   ],
   "injectors": {
     "defaultRequire": 1
