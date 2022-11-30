@@ -3,7 +3,7 @@ package dev.sleep.particlelib.core.impl.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.sleep.particlelib.core.AbstractParticleEmitter;
 import dev.sleep.particlelib.core.client.renderer.AbstractParticleRenderer;
-import dev.sleep.particlelib.core.impl.client.ClientParticleManager;
+import dev.sleep.particlelib.core.impl.client.ParticleManager;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,7 +20,7 @@ public class ParticleRendererManager {
     }
 
     public void renderParticles(PoseStack poseStack, MultiBufferSource.BufferSource buffer, LightTexture lightTexture, Camera activeRenderInfo, float partialTicks) {
-        ClientParticleManager.INSTANCE.fetchList(particleEmitter -> {
+        ParticleManager.INSTANCE.fetchList(particleEmitter -> {
             final AbstractParticleRenderer PARTICLE_RENDERER = PARTICLES_RENDERER_LIST.get(particleEmitter.getClass());
             if (PARTICLE_RENDERER == null) {
                 return;

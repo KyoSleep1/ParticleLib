@@ -4,10 +4,6 @@ import dev.sleep.particlelib.core.AbstractParticleEmitter;
 
 public class SnowParticleEmitter extends AbstractParticleEmitter {
 
-    public SnowParticleEmitter() {
-        super(true);
-    }
-
     @Override
     public void tick() {
     }

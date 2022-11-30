@@ -18,7 +18,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "dev.sleep.particlelib.client.MainClient"
+      "dev.sleep.particlelib.MainClient"
     ],
     "main": [
       "dev.sleep.particlelib.Main"

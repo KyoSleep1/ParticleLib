@@ -1,21 +1,20 @@
 package dev.sleep.particlelib.core.impl.client;
 
 import dev.sleep.particlelib.core.AbstractParticleEmitter;
-import dev.sleep.particlelib.core.impl.common.AbstractParticleManager;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-public class ClientParticleManager extends AbstractParticleManager {
+public class ParticleManager  {
 
-    public static final ClientParticleManager INSTANCE = new ClientParticleManager();
+    public static final ParticleManager INSTANCE = new ParticleManager();
+    protected final ObjectArrayList<AbstractParticleEmitter> PARTICLE_EMITTERS_LIST = new ObjectArrayList<>();
 
-    @Override
     public void addToList(AbstractParticleEmitter particleEmitter) {
-        super.addToList(particleEmitter);
+        PARTICLE_EMITTERS_LIST.add(particleEmitter);
         this.sortList();
     }
 
-    @Override
     public void removeFromList(AbstractParticleEmitter particleEmitter) {
-        super.removeFromList(particleEmitter);
+        PARTICLE_EMITTERS_LIST.remove(particleEmitter);
         this.sortList();
     }
 
@@ -34,6 +33,11 @@ public class ClientParticleManager extends AbstractParticleManager {
         });
     }
 
+    public void tickParticles() {
+        for (AbstractParticleEmitter particleEmitter : PARTICLE_EMITTERS_LIST) {
+            particleEmitter.tick();
+        }
+    }
 
     public void fetchList(ParticleListCallback callback) {
         for (AbstractParticleEmitter particleEmitter : PARTICLE_EMITTERS_LIST) {

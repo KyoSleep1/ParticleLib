@@ -1,4 +1,4 @@
-package dev.sleep.particlelib.client;
+package dev.sleep.particlelib;
 
 import dev.sleep.particlelib.Main;
 import dev.sleep.particlelib.example.client.renderer.particle.SnowParticleRenderer;
