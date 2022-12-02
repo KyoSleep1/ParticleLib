@@ -1,8 +1,8 @@
 package dev.sleep.particlelib.example.client.renderer.particle;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sleep.particlelib.core.AbstractParticleEmitter;
-import dev.sleep.particlelib.core.client.renderer.AbstractParticleRenderer;
+import dev.sleep.particlecore.AbstractParticleEmitter;
+import dev.sleep.particlecore.client.renderer.AbstractParticleRenderer;
 import dev.sleep.particlelib.example.client.renderer.particle.scheme.SnowParticleScheme;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LightTexture;

@@ -1,6 +1,6 @@
 package dev.sleep.particlelib;
 
-import dev.sleep.particlelib.core.impl.common.registry.ItemRegistry;
+import dev.sleep.particlelib.common.registry.ItemRegistry;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;

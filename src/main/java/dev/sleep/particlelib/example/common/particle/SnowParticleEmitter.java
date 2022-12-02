@@ -1,6 +1,6 @@
 package dev.sleep.particlelib.example.common.particle;
 
-import dev.sleep.particlelib.core.AbstractParticleEmitter;
+import dev.sleep.particlecore.AbstractParticleEmitter;
 
 public class SnowParticleEmitter extends AbstractParticleEmitter {
 
