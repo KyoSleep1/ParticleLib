@@ -7,11 +7,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import dev.sleep.particlelib.client.loading.object.type.ParticleCurveType;
 import software.bernie.geckolib.core.molang.MolangException;
 import software.bernie.geckolib.core.molang.MolangParser;
 import software.bernie.geckolib.core.molang.expressions.MolangValue;
-import software.bernie.geckolib.core.molang.expressions.MolangVariableHolder;
-import dev.sleep.particlelib.client.loading.object.type.ParticleCurveType;
 
 public class ParticleCurve {
 
@@ -79,7 +78,7 @@ public class ParticleCurve {
 
     public void fromJson(JsonObject object) throws MolangException {
         if (object.has("type")) {
-            this.type = ParticleCurveType.valueOf(object.get("type").getAsString());
+            this.type = ParticleCurveType.fromString(object.get("type").getAsString());
         }
 
         if (object.has("input")) {
@@ -92,7 +91,7 @@ public class ParticleCurve {
 
         if (object.has("nodes")) {
             JsonArray nodes = object.getAsJsonArray("nodes");
-            MolangValue[] result = new MolangVariableHolder[nodes.size()];
+            MolangValue[] result = new MolangValue[nodes.size()];
 
             for (int i = 0, c = result.length; i < c; i++) {
                 result[i] = MolangParser.parseJson(nodes.get(i));

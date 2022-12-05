@@ -9,4 +9,14 @@ public enum ParticleCurveType {
     ParticleCurveType(String curveName) {
         this.curveName = curveName;
     }
+
+    public static ParticleCurveType fromString(String curveName) {
+        for (ParticleCurveType curveType : values()) {
+            if (curveType.curveName.equals(curveName)) {
+                return curveType;
+            }
+        }
+
+        return LINEAR;
+    }
 }

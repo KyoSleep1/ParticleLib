@@ -147,7 +147,6 @@ public class MolangParser extends MathBuilder {
 			return ZERO;
 
 		JsonPrimitive primitive = element.getAsJsonPrimitive();
-
 		if (primitive.isNumber())
 			return new MolangValue(new Constant(primitive.getAsDouble()));
 
