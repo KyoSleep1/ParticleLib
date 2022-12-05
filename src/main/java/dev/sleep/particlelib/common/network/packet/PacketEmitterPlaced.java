@@ -1,6 +1,8 @@
 package dev.sleep.particlelib.common.network.packet;
 
+import dev.sleep.particlelib.client.ParticleManager;
 import dev.sleep.particlelib.common.network.NetworkManager;
+import dev.sleep.particlelib.example.common.particle.SnowParticleEmitter;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
@@ -28,6 +30,6 @@ public class PacketEmitterPlaced extends AbstractPacket {
     }
 
     private static void runOnThread(Minecraft client, ClientPacketListener handler, PacketSender responseSender) {
-        //Handle spawning
+        ParticleManager.INSTANCE.addToList(new SnowParticleEmitter());
     }
 }

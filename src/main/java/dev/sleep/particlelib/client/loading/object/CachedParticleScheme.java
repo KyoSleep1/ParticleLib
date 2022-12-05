@@ -5,17 +5,17 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import dev.sleep.particlecore.client.component.AbstractComponent;
 import software.bernie.geckolib.core.molang.MolangException;
 import software.bernie.geckolib.core.molang.MolangParser;
-import dev.sleep.particlecore.client.renderer.ComponentRegistry;
-import dev.sleep.particlelib.client.loading.object.component.*;
+import dev.sleep.particlelib.client.ParticleComponentRegistry;
 import dev.sleep.particlelib.client.loading.object.type.ParticleMaterialType;
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;
 
-public class ParticleScheme {
+public class CachedParticleScheme {
 
     @Getter
     private String identifier;
@@ -35,29 +35,29 @@ public class ParticleScheme {
     @Getter
     private final List<AbstractComponent> ComponentsList = new ArrayList<>();
 
-    public static JsonDeserializer<ParticleScheme> deserializer() throws JsonParseException {
+    public static JsonDeserializer<CachedParticleScheme> deserializer() throws JsonParseException {
         return (json, type, context) -> {
-            ParticleScheme particleScheme = new ParticleScheme();
+            CachedParticleScheme particleScheme = new CachedParticleScheme();
             JsonObject root = json.getAsJsonObject();
 
-            JsonObject effectObject = ParticleScheme.getObject(root, "particle_effect");
-            JsonObject descriptionObject = ParticleScheme.getObject(effectObject, "description");
+            JsonObject effectObject = CachedParticleScheme.getObject(root, "particle_effect");
+            JsonObject descriptionObject = CachedParticleScheme.getObject(effectObject, "description");
 
-            ParticleScheme.parseDescription(particleScheme, root, descriptionObject);
-            ParticleScheme.parseEffect(particleScheme, effectObject);
+            CachedParticleScheme.parseDescription(particleScheme, root, descriptionObject);
+            CachedParticleScheme.parseEffect(particleScheme, effectObject);
 
             return particleScheme;
         };
     }
 
-    private static void parseDescription(ParticleScheme particleScheme, JsonObject root, JsonObject description) throws JsonParseException {
+    private static void parseDescription(CachedParticleScheme particleScheme, JsonObject root, JsonObject description) throws JsonParseException {
         particleScheme.formatVersion = root.get("format_version").getAsString();
 
         if (description.has("identifier")) {
             particleScheme.identifier = description.get("identifier").getAsString();
         }
 
-        JsonObject parameters = ParticleScheme.getObject(description, "basic_render_parameters");
+        JsonObject parameters = CachedParticleScheme.getObject(description, "basic_render_parameters");
         if (parameters.has("material")) {
             particleScheme.material = ParticleMaterialType.fromString(parameters.get("material").getAsString());
         }
@@ -68,22 +68,26 @@ public class ParticleScheme {
         }
     }
 
-    private static void parseEffect(ParticleScheme particleScheme, JsonObject root) throws JsonParseException {
+    private static void parseEffect(CachedParticleScheme particleScheme, JsonObject root) throws JsonParseException {
         if (root.has("curves")) {
             JsonElement curves = root.get("curves");
 
             if (curves.isJsonObject()) {
-                ParticleScheme.parseCurves(particleScheme, curves.getAsJsonObject());
+                CachedParticleScheme.parseCurves(particleScheme, curves.getAsJsonObject());
             }
         }
 
-        ParticleScheme.parseComponents(particleScheme, ParticleScheme.getObject(root, "components"));
+        try {
+            CachedParticleScheme.parseComponents(particleScheme, CachedParticleScheme.getObject(root, "components"));
+        } catch (MolangException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Parse curves object
      */
-    private static void parseCurves(ParticleScheme particleScheme, JsonObject curves) {
+    private static void parseCurves(CachedParticleScheme particleScheme, JsonObject curves) {
         for (Map.Entry<String, JsonElement> entry : curves.entrySet()) {
             JsonElement element = entry.getValue();
 
@@ -101,8 +105,8 @@ public class ParticleScheme {
         }
     }
 
-    private static void parseComponents(ParticleScheme particleScheme, JsonObject components) {
-        BiMap<String, Class<? extends AbstractComponent>> componentsList = ComponentRegistry.getComponentsList();
+    private static void parseComponents(CachedParticleScheme particleScheme, JsonObject components) throws MolangException {
+        BiMap<String, Class<? extends AbstractComponent>> componentsList = ParticleComponentRegistry.getComponentsList();
         for (Map.Entry<String, JsonElement> entry : components.entrySet()) {
             String key = entry.getKey();
 

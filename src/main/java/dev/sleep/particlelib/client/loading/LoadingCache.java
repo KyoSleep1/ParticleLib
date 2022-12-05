@@ -2,7 +2,7 @@ package dev.sleep.particlelib.client.loading;
 
 import dev.sleep.particlelib.Main;
 import dev.sleep.particlelib.Reference;
-import dev.sleep.particlelib.client.loading.object.ParticleScheme;
+import dev.sleep.particlelib.client.loading.object.CachedParticleScheme;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -23,7 +23,7 @@ import java.util.function.Function;
 public class LoadingCache {
 
     @Getter
-    private static Map<ResourceLocation, ParticleScheme> CachedSchemes = Collections.emptyMap();
+    private static Map<ResourceLocation, CachedParticleScheme> CachedSchemes = Collections.emptyMap();
 
     public static void loadResourcesAndCache() {
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES)
@@ -43,15 +43,15 @@ public class LoadingCache {
     }
 
     private static CompletableFuture<Void> reload(PreparableReloadListener.PreparationBarrier stage, ResourceManager resourceManager, Executor backgroundExecutor, Executor gameExecutor) {
-        Map<ResourceLocation, ParticleScheme> schemes = new Object2ObjectOpenHashMap<>();
+        Map<ResourceLocation, CachedParticleScheme> schemes = new Object2ObjectOpenHashMap<>();
         return CompletableFuture.allOf(
                         loadSchemes(backgroundExecutor, resourceManager, schemes::put))
                 .thenCompose(stage::wait).thenAcceptAsync(empty -> CachedSchemes = schemes, gameExecutor);
     }
 
-    private static CompletableFuture<Void> loadSchemes(Executor backgroundExecutor, ResourceManager resourceManager, BiConsumer<ResourceLocation, ParticleScheme> elementConsumer) {
+    private static CompletableFuture<Void> loadSchemes(Executor backgroundExecutor, ResourceManager resourceManager, BiConsumer<ResourceLocation, CachedParticleScheme> elementConsumer) {
         return loadResources(backgroundExecutor, resourceManager, resource -> {
-            ParticleScheme scheme = SchemeFileLoader.loadScheme(resource, resourceManager);
+            CachedParticleScheme scheme = SchemeFileLoader.loadScheme(resource, resourceManager);
 
             if (!scheme.getFormatVersion().equals("1.10.0")) {
                 Main.warnCritical("Unsupported scheme json version. Supported versions: 1.10.0", null);

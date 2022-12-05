@@ -1,6 +1,6 @@
 package dev.sleep.particlelib;
 
-import dev.sleep.particlecore.client.renderer.ComponentRegistry;
+import dev.sleep.particlelib.client.ParticleComponentRegistry;
 import dev.sleep.particlelib.client.loading.LoadingCache;
 import dev.sleep.particlelib.client.renderer.ParticleRendererManager;
 import dev.sleep.particlelib.common.network.NetworkManager;
@@ -27,7 +27,7 @@ public class MainClient implements ClientModInitializer {
     }
 
     private void registerResources() {
-        ComponentRegistry.registerAll();
+        ParticleComponentRegistry.registerAll();
         LoadingCache.loadResourcesAndCache();
     }
 

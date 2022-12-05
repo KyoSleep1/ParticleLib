@@ -1,7 +1,9 @@
 package dev.sleep.particlelib.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.sleep.particlecore.AbstractParticleEmitter;
 import dev.sleep.particlelib.client.ParticleManager;
+import dev.sleep.particlelib.client.loading.object.CachedParticleScheme;
 import dev.sleep.particlelib.client.renderer.ParticleRendererManager;
 import net.minecraft.client.Camera;
 import net.minecraft.client.particle.ParticleEngine;
@@ -17,7 +19,10 @@ public class MixinParticleEngine {
 
     @Inject(method = "tick()V", at = @At(value = "TAIL"))
     public void injectParticleTick(CallbackInfo ci) {
-        ParticleManager.INSTANCE.tickParticles();
+        for (AbstractParticleEmitter particleEmitter : ParticleManager.INSTANCE.PARTICLE_EMITTERS_LIST) {
+            final CachedParticleScheme SCHEME = ParticleRendererManager.INSTANCE.getCachedSchemeByEmitterClass(particleEmitter.getClass());
+            particleEmitter.tick(SCHEME);
+        }
     }
 
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/renderer/LightTexture;Lnet/minecraft/client/Camera;F)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;applyModelViewMatrix()V", ordinal = 0))

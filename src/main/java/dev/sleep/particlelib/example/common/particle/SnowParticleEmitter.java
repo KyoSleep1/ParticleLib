@@ -1,15 +1,6 @@
 package dev.sleep.particlelib.example.common.particle;
 
-import dev.sleep.particlecore.AbstractParticleEmitter;
+import dev.sleep.particlecore.DefaultedParticleEmitter;
 
-public class SnowParticleEmitter extends AbstractParticleEmitter {
-
-    @Override
-    public void tick() {
-    }
-
-    @Override
-    public double getDistanceSq() {
-        return 0;
-    }
+public class SnowParticleEmitter extends DefaultedParticleEmitter {
 }

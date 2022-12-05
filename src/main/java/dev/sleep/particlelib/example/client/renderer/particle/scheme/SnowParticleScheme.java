@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SnowParticleScheme extends AbstractParticleScheme {
 
-    private final ResourceLocation SCHEME_LOCATION = new ResourceLocation(Reference.MODID, "scheme/snow.particle.json");
+    private final ResourceLocation SCHEME_LOCATION = new ResourceLocation(Reference.MODID, "schemes/snow.particle.json");
 
     @Override
     public ResourceLocation getSchemeLocation() {

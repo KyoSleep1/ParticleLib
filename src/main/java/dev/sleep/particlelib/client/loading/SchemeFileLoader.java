@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.sleep.particlelib.Main;
-import dev.sleep.particlelib.client.loading.object.ParticleScheme;
+import dev.sleep.particlelib.client.loading.object.CachedParticleScheme;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -20,9 +20,9 @@ import java.util.Optional;
 public class SchemeFileLoader {
 
     public static final Gson SCHEME_JSON = new GsonBuilder().setLenient()
-            .registerTypeAdapter(ParticleScheme.class, ParticleScheme.deserializer()).create();
+            .registerTypeAdapter(CachedParticleScheme.class, CachedParticleScheme.deserializer()).create();
 
-    public static ParticleScheme loadScheme(ResourceLocation location, ResourceManager manager) {
+    public static CachedParticleScheme loadScheme(ResourceLocation location, ResourceManager manager) {
         String exceptionMessage = "Could not load scheme " + location;
         if (location == null) {
             Main.warnCritical(exceptionMessage, null);
@@ -61,7 +61,7 @@ public class SchemeFileLoader {
         }
     }
 
-    private static ParticleScheme getParsedScheme(JsonElement json) {
-        return SCHEME_JSON.fromJson(json, ParticleScheme.class);
+    private static CachedParticleScheme getParsedScheme(JsonElement json) {
+        return SCHEME_JSON.fromJson(json, CachedParticleScheme.class);
     }
 }
