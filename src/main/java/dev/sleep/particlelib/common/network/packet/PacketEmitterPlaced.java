@@ -7,15 +7,22 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
 public class PacketEmitterPlaced extends AbstractPacket {
 
+    private final BlockPos BLOCK_POS;
+
+    public PacketEmitterPlaced(BlockPos blockPos){
+        this.BLOCK_POS = blockPos;
+    }
+
     @Override
     public FriendlyByteBuf encode() {
         FriendlyByteBuf buf = PacketByteBufs.create();
-        //WRITE RELEVANT DATA
+        buf.writeBlockPos(BLOCK_POS);
         return buf;
     }
 
@@ -25,11 +32,11 @@ public class PacketEmitterPlaced extends AbstractPacket {
     }
 
     public static void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
-        //Read relevant data and pass as a parameter
-        client.execute(() -> runOnThread(client, handler, responseSender));
+        BlockPos blockPos = buf.readBlockPos();
+        client.execute(() -> runOnThread(client, handler, responseSender, blockPos));
     }
 
-    private static void runOnThread(Minecraft client, ClientPacketListener handler, PacketSender responseSender) {
-        ParticleManager.INSTANCE.addToList(new SnowParticleEmitter());
+    private static void runOnThread(Minecraft client, ClientPacketListener handler, PacketSender responseSender, BlockPos blockPos) {
+        ParticleManager.INSTANCE.addToList(new SnowParticleEmitter(blockPos));
     }
 }

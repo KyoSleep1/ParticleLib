@@ -6,14 +6,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import dev.sleep.particlecore.client.component.AbstractComponent;
-import software.bernie.geckolib.core.molang.MolangException;
-import software.bernie.geckolib.core.molang.MolangParser;
+import dev.sleep.particlelib.Reference;
 import dev.sleep.particlelib.client.ParticleComponentRegistry;
 import dev.sleep.particlelib.client.loading.object.type.ParticleMaterialType;
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.core.molang.MolangException;
+import software.bernie.geckolib.core.molang.MolangParser;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class CachedParticleScheme {
 
@@ -33,7 +37,7 @@ public class CachedParticleScheme {
     private final HashMap<String, ParticleCurve> CurvesList = new HashMap<>();
 
     @Getter
-    private final List<AbstractComponent> ComponentsList = new ArrayList<>();
+    private final Queue<AbstractComponent> ComponentsList = new ConcurrentLinkedQueue<>();
 
     public static JsonDeserializer<CachedParticleScheme> deserializer() throws JsonParseException {
         return (json, type, context) -> {
@@ -64,7 +68,7 @@ public class CachedParticleScheme {
 
         if (parameters.has("texture")) {
             String texture = parameters.get("texture").getAsString();
-            particleScheme.textureLocation = new ResourceLocation(texture);
+            particleScheme.textureLocation = new ResourceLocation(Reference.MODID, texture);
         }
     }
 

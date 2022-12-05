@@ -24,8 +24,8 @@ import java.util.function.DoubleSupplier;
 public class MolangParser extends MathBuilder {
 	// Replace base variables map
 	public static final Map<String, LazyVariable> VARIABLES = new Object2ObjectOpenHashMap<>();
-	public static final MolangVariableHolder ZERO = new MolangVariableHolder(null, new Constant(0));
-	public static final MolangVariableHolder ONE = new MolangVariableHolder(null, new Constant(1));
+	public static final MolangVariableHolder ZERO = new MolangVariableHolder(new Variable("ZERO", 0), new Constant(0));
+	public static final MolangVariableHolder ONE = new MolangVariableHolder(new Variable("ONE", 1), new Constant(1));
 	public static final String RETURN = "return ";
 
 	public static final MolangParser INSTANCE = new MolangParser();

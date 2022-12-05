@@ -2,8 +2,14 @@ package dev.sleep.particlecore.client.component.appearance;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.sleep.particlecore.AbstractParticleEmitter;
+import dev.sleep.particlecore.EnhancedParticle;
 import dev.sleep.particlecore.client.component.AbstractComponent;
 import dev.sleep.particlecore.util.JsonUtil;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.LightTexture;
 import software.bernie.geckolib.core.molang.MolangException;
 import software.bernie.geckolib.core.molang.MolangParser;
 
@@ -40,5 +46,14 @@ public abstract class ComponentAppearanceTinting extends AbstractComponent {
         }
 
         return object;
+    }
+
+    @Override
+    public void render(AbstractParticleEmitter particleEmitter, EnhancedParticle particle, PoseStack poseStack, BufferBuilder tesselator, LightTexture lightTexture, Camera activeRenderInfo, float partialTicks) {
+        if (this.color != null) {
+            this.color.compute(particle);
+        } else {
+            particle.color.x = particle.color.y = particle.color.z = particle.color.w = 1;
+        }
     }
 }

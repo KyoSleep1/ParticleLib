@@ -76,7 +76,7 @@ public class ComponentMotionDynamic extends AbstractComponent {
 
     @Override
     public void update(AbstractParticleEmitter emitter, EnhancedParticle particle, CachedParticleScheme scheme, boolean updateEmitterOnly) {
-        if(!updateEmitterOnly){
+        if(updateEmitterOnly){
             return;
         }
 

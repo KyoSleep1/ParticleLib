@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import org.joml.Matrix3f;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
-import org.joml.Vector3fc;
 
 import java.util.*;
 
@@ -23,7 +22,7 @@ public abstract class AbstractParticleEmitter {
 
     public double age, spawnedParticles, sanityTicks;
 
-    public boolean playing = true, removed = false;
+    public boolean playing = true, removed = false, firstTick = true;
     public int lifetime;
 
     public Vector3d lastGlobal = new Vector3d();
@@ -66,8 +65,8 @@ public abstract class AbstractParticleEmitter {
         }
 
         if (!(particle.useRelativePosition && particle.useRelativeRotation)) {
-            particle.position.add((Vector3fc) this.lastGlobal);
-            particle.initialPosition.add((Vector3fc) this.lastGlobal);
+            particle.position.add((float) this.lastGlobal.x, (float) this.lastGlobal.y, (float) this.lastGlobal.z);
+            particle.initialPosition.add((float) this.lastGlobal.x, (float) this.lastGlobal.y, (float) this.lastGlobal.z);
         }
 
         particle.prevPosition.set(particle.position);

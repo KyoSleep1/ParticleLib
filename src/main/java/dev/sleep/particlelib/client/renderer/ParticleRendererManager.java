@@ -1,13 +1,13 @@
 package dev.sleep.particlelib.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import dev.sleep.particlecore.AbstractParticleEmitter;
 import dev.sleep.particlecore.client.renderer.AbstractEmitterRenderer;
 import dev.sleep.particlelib.client.ParticleManager;
 import dev.sleep.particlelib.client.loading.object.CachedParticleScheme;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class ParticleRendererManager {
         PARTICLES_RENDERER_LIST.putIfAbsent(particleClass, particleRenderer);
     }
 
-    public void renderParticles(PoseStack poseStack, MultiBufferSource.BufferSource buffer, LightTexture lightTexture, Camera activeRenderInfo, float partialTicks) {
+    public void renderParticles(PoseStack poseStack, Tesselator tesselator, LightTexture lightTexture, Camera activeRenderInfo, float partialTicks) {
         this.setupCameraPropertiesAndSort(activeRenderInfo);
         for (AbstractParticleEmitter emitter : ParticleManager.INSTANCE.PARTICLE_EMITTERS_LIST) {
             final AbstractEmitterRenderer PARTICLE_RENDERER = PARTICLES_RENDERER_LIST.get(emitter.getClass());
@@ -29,7 +29,7 @@ public class ParticleRendererManager {
                 return;
             }
 
-            PARTICLE_RENDERER.render(emitter, poseStack, buffer, lightTexture, activeRenderInfo, partialTicks);
+            PARTICLE_RENDERER.render(emitter, poseStack, tesselator, lightTexture, activeRenderInfo, partialTicks);
         }
     }
 

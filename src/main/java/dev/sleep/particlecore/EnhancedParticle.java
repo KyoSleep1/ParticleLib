@@ -25,9 +25,17 @@ public class EnhancedParticle {
     public boolean manual, firstTick = true;
 
     public void update(AbstractParticleEmitter emitter, CachedParticleScheme scheme) {
+        if(this.firstTick){
+            for(AbstractComponent component : scheme.getComponentsList()){
+                component.apply(emitter, this, false);
+            }
+        }
+
         this.poseAndRotate();
         this.age();
         this.updateComponents(emitter, scheme);
+
+        firstTick = false;
     }
 
     public void poseAndRotate() {
@@ -74,9 +82,8 @@ public class EnhancedParticle {
     }
 
     private void updateComponents(AbstractParticleEmitter emitter, CachedParticleScheme scheme) {
-        //TODO: Need to define particle molang variables
         for (AbstractComponent component : scheme.getComponentsList()) {
-            component.update(emitter, null, scheme, false);
+            component.update(emitter, this, scheme, false);
         }
     }
 

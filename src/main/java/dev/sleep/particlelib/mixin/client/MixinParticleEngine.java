@@ -1,6 +1,7 @@
 package dev.sleep.particlelib.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import dev.sleep.particlecore.AbstractParticleEmitter;
 import dev.sleep.particlelib.client.ParticleManager;
 import dev.sleep.particlelib.client.loading.object.CachedParticleScheme;
@@ -27,6 +28,6 @@ public class MixinParticleEngine {
 
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/renderer/LightTexture;Lnet/minecraft/client/Camera;F)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;applyModelViewMatrix()V", ordinal = 0))
     public void injectParticleRenderer(PoseStack poseStack, MultiBufferSource.BufferSource buffer, LightTexture lightTexture, Camera activeRenderInfo, float partialTicks, CallbackInfo ci) {
-        ParticleRendererManager.INSTANCE.renderParticles(poseStack, buffer, lightTexture, activeRenderInfo, partialTicks);
+        ParticleRendererManager.INSTANCE.renderParticles(poseStack, Tesselator.getInstance(), lightTexture, activeRenderInfo, partialTicks);
     }
 }

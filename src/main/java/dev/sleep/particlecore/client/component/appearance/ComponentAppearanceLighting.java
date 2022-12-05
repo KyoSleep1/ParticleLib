@@ -14,8 +14,6 @@ public class ComponentAppearanceLighting extends AbstractComponent {
         if(!updateEmitterOnly){
             return;
         }
-
-
     }
 
     @Override

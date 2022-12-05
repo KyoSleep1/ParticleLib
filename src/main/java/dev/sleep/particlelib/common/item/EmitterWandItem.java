@@ -35,7 +35,7 @@ public final class EmitterWandItem extends Item {
             return InteractionResult.FAIL;
         }
 
-        NetworkManager.sendToTrackingEntityAndSelf(new PacketEmitterPlaced(), interactionTarget);
+        NetworkManager.sendToTrackingEntityAndSelf(new PacketEmitterPlaced(null), interactionTarget);
         return InteractionResult.SUCCESS;
     }
 
@@ -45,7 +45,7 @@ public final class EmitterWandItem extends Item {
             return InteractionResult.FAIL;
         }
 
-        NetworkManager.sendToEntitiesTrackingChunk(new PacketEmitterPlaced(), serverLevel, context.getClickedPos());
+        NetworkManager.sendToEntitiesTrackingChunk(new PacketEmitterPlaced(context.getClickedPos()), serverLevel, context.getClickedPos());
         return InteractionResult.SUCCESS;
     }
 }

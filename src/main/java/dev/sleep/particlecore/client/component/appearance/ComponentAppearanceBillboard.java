@@ -1,15 +1,26 @@
 package dev.sleep.particlecore.client.component.appearance;
 
+import com.eliotlash.mclib.utils.Interpolations;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.sleep.particlecore.AbstractParticleEmitter;
 import dev.sleep.particlecore.EnhancedParticle;
 import dev.sleep.particlecore.client.component.AbstractComponent;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.core.BlockPos;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import software.bernie.geckolib.core.molang.MolangException;
 import software.bernie.geckolib.core.molang.MolangParser;
 import software.bernie.geckolib.core.molang.expressions.MolangValue;
 
-public abstract class ComponentAppearanceBillboard extends AbstractComponent {
+public class ComponentAppearanceBillboard extends AbstractComponent {
 
     public MolangValue sizeW = MolangParser.ZERO, sizeH = MolangParser.ZERO, uvX = MolangParser.ZERO,
             uvY = MolangParser.ZERO, uvW = MolangParser.ZERO, uvH = MolangParser.ZERO, maxFrame = MolangParser.ZERO;
@@ -34,6 +45,16 @@ public abstract class ComponentAppearanceBillboard extends AbstractComponent {
 
     protected float u2;
     protected float v2;
+
+    private final Matrix4f TRANSFORMATION = new Matrix4f();
+    private final Matrix4f ROTATION = new Matrix4f();
+    private final Vector4f[] VERTICES = new Vector4f[]{
+            new Vector4f(0, 0, 0, 1),
+            new Vector4f(0, 0, 0, 1),
+            new Vector4f(0, 0, 0, 1),
+            new Vector4f(0, 0, 0, 1)
+    };
+    private final Vector3f VECTOR = new Vector3f();
 
     @Override
     public AbstractComponent fromJson(JsonElement element) throws MolangException {
@@ -196,19 +217,19 @@ public abstract class ComponentAppearanceBillboard extends AbstractComponent {
                 flipbook.add("step_UV", step);
             }
 
-            if (this.fps != 0){
+            if (this.fps != 0) {
                 flipbook.addProperty("frames_per_second", this.fps);
             }
 
-            if (!this.maxFrame.isZero()){
+            if (!this.maxFrame.isZero()) {
                 flipbook.add("max_frame", this.maxFrame.toJson());
             }
 
-            if (this.stretchFPS){
+            if (this.stretchFPS) {
                 flipbook.addProperty("stretch_to_lifetime", true);
             }
 
-            if (this.loop){
+            if (this.loop) {
                 flipbook.addProperty("loop", true);
             }
 
@@ -219,6 +240,85 @@ public abstract class ComponentAppearanceBillboard extends AbstractComponent {
         object.addProperty("facing_camera_mode", this.facing.id);
         object.add("uv", uv);
         return object;
+    }
+
+    @Override
+    public void render(AbstractParticleEmitter emitter, EnhancedParticle particle, PoseStack poseStack, BufferBuilder builder, LightTexture lightTexture, Camera activeRenderInfo, float partialTicks) {
+        this.calculateUVs(particle, partialTicks);
+
+        double px = Interpolations.lerp(particle.prevPosition.x, particle.position.x, partialTicks);
+        double py = Interpolations.lerp(particle.prevPosition.y, particle.position.y, partialTicks);
+        double pz = Interpolations.lerp(particle.prevPosition.z, particle.position.z, partialTicks);
+        float angle = Interpolations.lerp(particle.prevRotation, particle.rotation, partialTicks);
+
+        if (particle.useRelativePosition && particle.useRelativeRotation) {
+            this.VECTOR.set((float) px, (float) py, (float) pz);
+            emitter.rotation.transform(this.VECTOR);
+
+            px = this.VECTOR.x;
+            py = this.VECTOR.y;
+            pz = this.VECTOR.z;
+
+            px += emitter.lastGlobal.x;
+            py += emitter.lastGlobal.y;
+            pz += emitter.lastGlobal.z;
+        }
+
+        boolean lookAt = this.facing == CameraFacing.LOOKAT_XYZ || this.facing == CameraFacing.LOOKAT_Y;
+        /**if (emitter.perspective == 2) {
+         this.w = -this.w;
+         } else if (emitter.perspective == 100 && !lookAt) {
+         entityYaw = 180 - entityYaw;
+
+         this.w = -this.w;
+         this.h = -this.h;
+         } **/
+
+        if (lookAt) {
+            /** double dX = entityX - px;
+             double dY = entityY - py;
+             double dZ = entityZ - pz;
+             double horizontalDistance = Mth.sqrt((float) (dX * dX + dZ * dZ)); **/
+
+            //entityYaw = 180 - (float) (Mth.atan2(dZ, dX) * (180D / Math.PI)) - 90.0F;
+            //entityPitch = (float) (-(Mth.atan2(dY, horizontalDistance) * (180D / Math.PI))) + 180;
+        }
+
+        this.VERTICES[0].set(-this.w / 2, -this.h / 2, 0, 1);
+        this.VERTICES[1].set(this.w / 2, -this.h / 2, 0, 1);
+        this.VERTICES[2].set(this.w / 2, this.h / 2, 0, 1);
+        this.VERTICES[3].set(-this.w / 2, this.h / 2, 0, 1);
+        this.TRANSFORMATION.identity();
+
+        if (this.facing == CameraFacing.ROTATE_XYZ || this.facing == CameraFacing.LOOKAT_XYZ) {
+            // this.rotation.rotY(entityYaw / 180 * (float) Math.PI);
+            this.TRANSFORMATION.mul(this.ROTATION);
+            //this.rotation.rotX(entityPitch / 180 * (float) Math.PI);
+            this.TRANSFORMATION.mul(this.ROTATION);
+        } else if (this.facing == CameraFacing.ROTATE_Y || this.facing == CameraFacing.LOOKAT_Y) {
+            //this.rotation.rotY(entityYaw / 180 * (float) Math.PI);
+            this.TRANSFORMATION.mul(this.ROTATION);
+        }
+
+        //this.rotation.rotZ(angle / 180 * (float) Math.PI);
+        this.TRANSFORMATION.mul(this.ROTATION);
+        this.TRANSFORMATION.setTranslation(new Vector3f((float) px, (float) py, (float) pz));
+
+        for (Vector4f vertex : this.VERTICES) {
+            this.TRANSFORMATION.transform(vertex);
+        }
+
+        int lightColor = this.getLightColor(emitter, particle, partialTicks);
+
+        float u1 = this.u1 / (float) this.textureWidth;
+        float u2 = this.u2 / (float) this.textureWidth;
+        float v1 = this.v1 / (float) this.textureHeight;
+        float v2 = this.v2 / (float) this.textureHeight;
+
+        builder.vertex(this.VERTICES[0].x, this.VERTICES[0].y, this.VERTICES[0].z).uv(u1, v1).color(particle.color.x, particle.color.y, particle.color.z, particle.color.w).uv2(lightColor).endVertex();
+        builder.vertex(this.VERTICES[1].x, this.VERTICES[1].y, this.VERTICES[1].z).uv(u2, v1).color(particle.color.x, particle.color.y, particle.color.z, particle.color.w).uv2(lightColor).endVertex();
+        builder.vertex(this.VERTICES[2].x, this.VERTICES[2].y, this.VERTICES[2].z).uv(u2, v2).color(particle.color.x, particle.color.y, particle.color.z, particle.color.w).uv2(lightColor).endVertex();
+        builder.vertex(this.VERTICES[3].x, this.VERTICES[3].y, this.VERTICES[3].z).uv(u1, v2).color(particle.color.x, particle.color.y, particle.color.z, particle.color.w).uv2(lightColor).endVertex();
     }
 
     public void calculateUVs(EnhancedParticle particle, float partialTicks) {
@@ -256,5 +356,18 @@ public abstract class ComponentAppearanceBillboard extends AbstractComponent {
         this.v1 = v;
         this.u2 = u + w;
         this.v2 = v + h;
+    }
+
+    public int getLightColor(AbstractParticleEmitter emitter, EnhancedParticle particle, float partialTick) {
+        if (emitter.world == null) {
+            return 0;
+        }
+
+        BlockPos blockPos = new BlockPos(particle.position.x, particle.position.y, particle.position.z);
+        if (emitter.world.getChunkAt(blockPos) != null) {
+            return LevelRenderer.getLightColor(emitter.world, blockPos);
+        }
+
+        return 0;
     }
 }

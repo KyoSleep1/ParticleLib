@@ -49,7 +49,7 @@ public class ParticleComponentRegistry {
          ComponentsList.put("minecraft:particle_kill_plane", ComponentKillPlane.class);
 
          ComponentsList.put("minecraft:particle_appearance_billboard", ComponentAppearanceBillboard.class);
-         //ComponentsList.put("minecraft:particle_appearance_lighting", ComponentAppearanceLighting.class);
+         ComponentsList.put("minecraft:particle_appearance_lighting", ComponentAppearanceLighting.class);
          ComponentsList.put("minecraft:particle_appearance_tinting", ComponentAppearanceTinting.class);
 
          ComponentsList.put("minecraft:particle_initial_speed", ComponentInitialSpeed.class);

@@ -45,7 +45,6 @@ public class ComponentLifetimeExpression extends ComponentLifetime {
             return;
         }
 
-
         if (!Operation.equals(this.activeTime.get(), 0)) {
             emitter.start();
         }
