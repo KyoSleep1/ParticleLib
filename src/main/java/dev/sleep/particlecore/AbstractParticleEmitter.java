@@ -25,8 +25,8 @@ public abstract class AbstractParticleEmitter {
     public boolean playing = true, removed = false, firstTick = true;
     public int lifetime;
 
-    public Vector3d lastGlobal = new Vector3d();
-    public Matrix3f rotation = new Matrix3f();
+    public final Vector3d lastGlobal = new Vector3d();
+    public final Matrix3f rotation = new Matrix3f();
 
     public final Map<String, IValue> DATA_LIST = Collections.emptyMap();
     public final List<EnhancedParticle> PARTICLES_LIST = new ArrayList<>();

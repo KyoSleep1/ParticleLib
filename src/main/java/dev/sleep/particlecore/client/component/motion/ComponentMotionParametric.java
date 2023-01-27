@@ -14,7 +14,7 @@ import software.bernie.geckolib.core.molang.expressions.MolangValue;
 
 public class ComponentMotionParametric extends AbstractComponent {
 
-    public MolangValue[] position = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
+    public final MolangValue[] position = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
     public MolangValue rotation = MolangParser.ZERO;
 
     @Override

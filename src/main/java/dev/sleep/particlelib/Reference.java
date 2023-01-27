@@ -2,6 +2,6 @@ package dev.sleep.particlelib;
 
 public class Reference {
 
-    public static String MODID = "particlelib";
+    public static final String MODID = "particlelib";
 
 }

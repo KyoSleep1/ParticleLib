@@ -7,7 +7,7 @@ import com.eliotlash.mclib.math.Variable;
  * Extension of {@link MolangValue} that additionally sets the value of a provided {@link Variable} when being called.
  */
 public class MolangVariableHolder extends MolangValue {
-	public Variable variable;
+	public final Variable variable;
 
 	public MolangVariableHolder(Variable variable, IValue value) {
 		super(value);

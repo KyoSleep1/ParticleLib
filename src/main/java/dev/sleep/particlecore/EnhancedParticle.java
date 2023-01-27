@@ -8,17 +8,21 @@ import org.joml.Vector3f;
 
 public class EnhancedParticle {
 
-    public Matrix3f matrix = new Matrix3f();
+    public final Matrix3f matrix = new Matrix3f();
     public boolean matrixSet;
 
-    public Vector3f prevPosition = new Vector3f(), initialPosition = new Vector3f(), position = new Vector3f(),
-            globalPosition = new Vector3f(), speed = new Vector3f();
+    public final Vector3f prevPosition = new Vector3f();
+    public final Vector3f initialPosition = new Vector3f();
+    public final Vector3f position = new Vector3f();
+    public final Vector3f globalPosition = new Vector3f();
+    public final Vector3f speed = new Vector3f();
     public float initialRotation, prevRotation, rotation, rotationVelocity, rotationAcceleration;
 
-    public Quaternionf color = new Quaternionf();
+    public final Quaternionf color = new Quaternionf();
     public boolean useRelativePosition = false, useRelativeRotation = false, dead = false;
 
-    public Vector3f accelerationFactor = new Vector3f(1, 1, 1), acceleration = new Vector3f();
+    public final Vector3f accelerationFactor = new Vector3f(1, 1, 1);
+    public final Vector3f acceleration = new Vector3f();
     public float drag, dragRotation, dragFactor;
 
     public int age, lifetime;

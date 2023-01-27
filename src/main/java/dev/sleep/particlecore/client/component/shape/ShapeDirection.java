@@ -45,9 +45,9 @@ public abstract class ShapeDirection {
     }
 
     public static class Vector extends ShapeDirection {
-        public MolangValue x;
-        public MolangValue y;
-        public MolangValue z;
+        public final MolangValue x;
+        public final MolangValue y;
+        public final MolangValue z;
 
         public Vector(MolangValue x, MolangValue y, MolangValue z) {
             this.x = x;

@@ -106,7 +106,10 @@ public abstract class ColorTint {
      * Solid color (not necessarily static)
      */
     public static class Solid extends ColorTint {
-        public MolangValue r, g, b, a;
+        public final MolangValue r;
+        public final MolangValue g;
+        public final MolangValue b;
+        public final MolangValue a;
 
         public Solid(MolangValue r, MolangValue g, MolangValue b, MolangValue a) {
             this.r = r;
@@ -173,9 +176,9 @@ public abstract class ColorTint {
      */
     public static class Gradient extends ColorTint {
 
-        public List<ColorStop> stops;
-        public MolangValue interpolant;
-        public boolean equal;
+        public final List<ColorStop> stops;
+        public final MolangValue interpolant;
+        public final boolean equal;
 
         public Gradient(List<ColorStop> stops, MolangValue interpolant, boolean equal) {
             this.stops = stops;
@@ -257,8 +260,8 @@ public abstract class ColorTint {
         }
 
         public static class ColorStop {
-            public float stop;
-            public Solid color;
+            public final float stop;
+            public final Solid color;
 
             public ColorStop(float stop, Solid color) {
                 this.stop = stop;

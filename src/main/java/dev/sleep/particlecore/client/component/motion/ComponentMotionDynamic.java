@@ -13,7 +13,7 @@ import software.bernie.geckolib.core.molang.expressions.MolangValue;
 
 public class ComponentMotionDynamic extends AbstractComponent {
 
-    public MolangValue[] motionAcceleration = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
+    public final MolangValue[] motionAcceleration = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
     public MolangValue motionDrag = MolangParser.ZERO;
     public MolangValue rotationAcceleration = MolangParser.ZERO;
     public MolangValue rotationDrag = MolangParser.ZERO;

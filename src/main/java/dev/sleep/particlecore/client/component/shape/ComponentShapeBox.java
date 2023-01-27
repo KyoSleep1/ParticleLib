@@ -12,7 +12,7 @@ import software.bernie.geckolib.core.molang.expressions.MolangValue;
 
 public class ComponentShapeBox extends ComponentShape {
 
-    public MolangValue[] halfDimensions = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
+    public final MolangValue[] halfDimensions = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
 
     @Override
     public AbstractComponent fromJson(JsonElement element) throws MolangException {

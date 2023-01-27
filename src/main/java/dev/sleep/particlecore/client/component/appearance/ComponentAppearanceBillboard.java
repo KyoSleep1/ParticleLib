@@ -10,9 +10,12 @@ import dev.sleep.particlecore.AbstractParticleEmitter;
 import dev.sleep.particlecore.EnhancedParticle;
 import dev.sleep.particlecore.client.component.AbstractComponent;
 import net.minecraft.client.Camera;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -264,24 +267,30 @@ public class ComponentAppearanceBillboard extends AbstractComponent {
             pz += emitter.lastGlobal.z;
         }
 
+        float yaw = activeRenderInfo.getXRot();
+        float pitch = activeRenderInfo.getYRot();
+        double positionX = activeRenderInfo.getPosition().x;
+        double positionY = activeRenderInfo.getPosition().y;
+        double positionZ = activeRenderInfo.getPosition().z;
         boolean lookAt = this.facing == CameraFacing.LOOKAT_XYZ || this.facing == CameraFacing.LOOKAT_Y;
-        /**if (emitter.perspective == 2) {
-         this.w = -this.w;
-         } else if (emitter.perspective == 100 && !lookAt) {
-         entityYaw = 180 - entityYaw;
 
-         this.w = -this.w;
-         this.h = -this.h;
-         } **/
+        if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON) {
+            this.w = -this.w;
+        } else if (!lookAt) {
+            yaw = 180 - yaw;
+
+            this.w = -this.w;
+            this.h = -this.h;
+        }
 
         if (lookAt) {
-            /** double dX = entityX - px;
-             double dY = entityY - py;
-             double dZ = entityZ - pz;
-             double horizontalDistance = Mth.sqrt((float) (dX * dX + dZ * dZ)); **/
+            double dX = positionX - px;
+            double dY = positionY - py;
+            double dZ = positionZ - pz;
+            double horizontalDistance = Mth.sqrt((float) (dX * dX + dZ * dZ));
 
-            //entityYaw = 180 - (float) (Mth.atan2(dZ, dX) * (180D / Math.PI)) - 90.0F;
-            //entityPitch = (float) (-(Mth.atan2(dY, horizontalDistance) * (180D / Math.PI))) + 180;
+            yaw = 180 - (float) (Mth.atan2(dZ, dX) * (180D / Math.PI)) - 90.0F;
+            pitch = (float) (-(Mth.atan2(dY, horizontalDistance) * (180D / Math.PI))) + 180;
         }
 
         this.VERTICES[0].set(-this.w / 2, -this.h / 2, 0, 1);
@@ -291,16 +300,16 @@ public class ComponentAppearanceBillboard extends AbstractComponent {
         this.TRANSFORMATION.identity();
 
         if (this.facing == CameraFacing.ROTATE_XYZ || this.facing == CameraFacing.LOOKAT_XYZ) {
-            // this.rotation.rotY(entityYaw / 180 * (float) Math.PI);
+            this.ROTATION.rotateLocalY(yaw / 180 * (float) Math.PI);
             this.TRANSFORMATION.mul(this.ROTATION);
-            //this.rotation.rotX(entityPitch / 180 * (float) Math.PI);
+            this.ROTATION.rotateLocalX(pitch / 180 * (float) Math.PI);
             this.TRANSFORMATION.mul(this.ROTATION);
         } else if (this.facing == CameraFacing.ROTATE_Y || this.facing == CameraFacing.LOOKAT_Y) {
-            //this.rotation.rotY(entityYaw / 180 * (float) Math.PI);
+            this.ROTATION.rotateLocalY(yaw / 180 * (float) Math.PI);
             this.TRANSFORMATION.mul(this.ROTATION);
         }
 
-        //this.rotation.rotZ(angle / 180 * (float) Math.PI);
+        this.ROTATION.rotateLocalZ(angle / 180 * (float) Math.PI);
         this.TRANSFORMATION.mul(this.ROTATION);
         this.TRANSFORMATION.setTranslation(new Vector3f((float) px, (float) py, (float) pz));
 

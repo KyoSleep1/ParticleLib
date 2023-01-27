@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public abstract class ComponentExpireBlocks extends AbstractComponent {
 
-    public List<Block> blocks = new ArrayList<>();
+    public final List<Block> blocks = new ArrayList<>();
     private final BlockPos POSITION = new BlockPos(0, 0, 0);
 
     @Override

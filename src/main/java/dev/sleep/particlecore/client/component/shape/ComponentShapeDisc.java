@@ -15,7 +15,7 @@ import software.bernie.geckolib.core.molang.MolangParser;
 import software.bernie.geckolib.core.molang.expressions.MolangValue;
 
 public class ComponentShapeDisc extends ComponentShapeSphere {
-    public MolangValue[] normal = {MolangParser.ZERO, MolangParser.ONE, MolangParser.ZERO};
+    public final MolangValue[] normal = {MolangParser.ZERO, MolangParser.ONE, MolangParser.ZERO};
 
     @Override
     public AbstractComponent fromJson(JsonElement element) throws MolangException {

@@ -10,7 +10,7 @@ import software.bernie.geckolib.core.molang.expressions.MolangValue;
 
 public abstract class ComponentShape extends AbstractComponent {
 
-    public MolangValue[] offset = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
+    public final MolangValue[] offset = {MolangParser.ZERO, MolangParser.ZERO, MolangParser.ZERO};
     public ShapeDirection direction = ShapeDirection.OUTWARDS;
     public boolean surface = false;
 
